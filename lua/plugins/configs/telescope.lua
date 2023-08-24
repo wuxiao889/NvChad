@@ -10,8 +10,8 @@ local options = {
       "--column",
       "--smart-case",
     },
-    prompt_prefix = "   ",
-    selection_caret = "  ",
+    prompt_prefix = "> ",
+    selection_caret = "* ",
     entry_prefix = "  ",
     initial_mode = "insert",
     selection_strategy = "reset",
@@ -19,15 +19,15 @@ local options = {
     layout_strategy = "horizontal",
     layout_config = {
       horizontal = {
-        prompt_position = "top",
+        prompt_position = "bottom",
         preview_width = 0.55,
         results_width = 0.8,
       },
       vertical = {
         mirror = false,
       },
-      width = 0.87,
-      height = 0.80,
+      width = 0.95,
+      height = 0.90,
       preview_cutoff = 120,
     },
     file_sorter = require("telescope.sorters").get_fuzzy_file,
@@ -45,7 +45,47 @@ local options = {
     -- Developer configurations: Not meant for general override
     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
     mappings = {
-      n = { ["q"] = require("telescope.actions").close },
+      i = {
+        -- ["<c-t>"] = function(...)
+        --   return require("trouble.providers.telescope").open_with_trouble(...)
+        -- end,
+        -- ["<a-t>"] = function(...)
+        --   return require("trouble.providers.telescope").open_selected_with_trouble(...)
+        -- end,
+        -- ["<a-i>"] = function()
+        --   local action_state = require("telescope.actions.state")
+        --   local line = action_state.get_current_line()
+        --   Util.telescope("find_files", { no_ignore = true, default_text = line })()
+        -- end,
+        -- ["<a-h>"] = function()
+        --   local action_state = require("telescope.actions.state")
+        --   local line = action_state.get_current_line()
+        --   Util.telescope("find_files", { hidden = true, default_text = line })()
+        -- end,
+        ["<C-Down>"] = function(...)
+          return require("telescope.actions").cycle_history_next(...)
+        end,
+        ["<C-Up>"] = function(...)
+          return require("telescope.actions").cycle_history_prev(...)
+        end,
+        ["<C-f>"] = function(...)
+          return require("telescope.actions").preview_scrolling_down(...)
+        end,
+        ["<C-b>"] = function(...)
+          return require("telescope.actions").preview_scrolling_up(...)
+        end,
+      },
+      n = {
+        ["q"] = function(...)
+          return require("telescope.actions").close(...)
+        end,
+        ["<C-f>"] = function(...)
+          return require("telescope.actions").results_scrolling_down(...)
+        end,
+        ["<C-b>"] = function(...)
+          return require("telescope.actions").results_scrolling_up(...)
+        end,
+      },
     },
   },
 

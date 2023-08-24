@@ -137,7 +137,7 @@ M.lspconfig = {
 
     ["gd"] = {
       function()
-        vim.lsp.buf.definition()
+        require("telescope.builtin").lsp_definitions({ reuse_win = true })
       end,
       "LSP definition",
     },
@@ -151,7 +151,7 @@ M.lspconfig = {
 
     ["gi"] = {
       function()
-        vim.lsp.buf.implementation()
+        require("telescope.builtin").lsp_implementations({initial_mode = "normal"})
       end,
       "LSP implementation",
     },
@@ -165,7 +165,7 @@ M.lspconfig = {
 
     ["<leader>D"] = {
       function()
-        vim.lsp.buf.type_definition()
+        vim.lsp.buf.declaration()
       end,
       "LSP definition type",
     },
@@ -186,7 +186,7 @@ M.lspconfig = {
 
     ["gr"] = {
       function()
-        vim.lsp.buf.references()
+        require("telescope.builtin").lsp_references({initial_mode = "normal"})
       end,
       "LSP references",
     },

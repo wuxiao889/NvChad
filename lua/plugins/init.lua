@@ -1,5 +1,7 @@
 -- All plugins have lazy=true by default,to load a plugin on startup just lazy=false
 -- List of all default plugins & their definitions
+local Util = require("util.init")
+
 local default_plugins = {
 
   "nvim-lua/plenary.nvim",
@@ -231,6 +233,30 @@ local default_plugins = {
     "nvim-telescope/telescope.nvim",
     dependencies = "nvim-treesitter/nvim-treesitter",
     cmd = "Telescope",
+    keys = {
+      { "<leader>sw", Util.telescope("grep_string", { initial_mode = "normal", word_match = "-w" }), desc = "Word (root dir)" },
+      { "<leader>sW", Util.telescope("grep_string", { initial_mode = "normal", cwd = false, word_match = "-w" }), desc = "Word (cwd)" },
+      { "<leader>sw", Util.telescope("grep_string", { initial_mode = "normal" }), mode = "v", desc = "Selection (root dir)" },
+      { "<leader>sW", Util.telescope("grep_string", { initial_mode = "normal", cwd = false }), mode = "v", desc = "Selection (cwd)" },
+      {
+        "<leader>ss",
+        Util.telescope("lsp_document_symbols", {
+          symbols = {
+            "Class",
+            "Function",
+            "Method",
+            "Constructor",
+            "Interface",
+            "Module",
+            "Struct",
+            "Trait",
+            "Field",
+            "Property",
+          },
+        }),
+        desc = "Goto Symbol",
+      },
+    },
     init = function()
       require("core.utils").load_mappings "telescope"
     end,
@@ -252,6 +278,7 @@ local default_plugins = {
   -- Only load whichkey after all the gui
   {
     "folke/which-key.nvim",
+    enabled = false,
     keys = { "<leader>", '"', "'", "`", "c", "v", "g" },
     init = function()
       require("core.utils").load_mappings "whichkey"
